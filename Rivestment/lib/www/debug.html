@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rivestment</title>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/jstree.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/rivestment.css">
+</head>
+<body>
+<div>
+    <div>
+        <nav class="navbar navbar-inverse" role="navigation" style="padding-left:130px;">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Rivestment</a></li>
+                <li><a href="/instructions.html">Instructions</a></li>
+                <li class="active"><a href="/debug.html">Debug<span class="sr-only">(current)</span></a></li>
+            </ul>
+        </nav>
+    </div>
+    <br/>
+    <div class="jumbotron" align="center">
+        <h2>A little help debugging your bot</h2>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <h4>This blob is available as raw JSON <a href="profiles.json">here</a>.</h4>
+            <pre><code id="profile-tree"></code></pre>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+<script src="/js/debug.js"></script>
+</body>
+</html>
