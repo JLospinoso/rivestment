@@ -15,9 +15,9 @@ Rivestment is comprised of two services: (a) a *node.js* service and (b) a Mongo
 service. Both of these services are containerized and available on
 [quay.io](https://quay.io/repository/jlospinoso/rivestment).
 
-[![rivestment container](https://quay.io/repository/jlospinoso/rivestment/status "Docker Repository on Quay")](https://quay.io/repository/jlospinoso/rivestment)
+[![rivestment container](https://quay.io/repository/jlospinoso/rivestment/status "rivestment Docker Repository on Quay")](https://quay.io/repository/jlospinoso/rivestment)
 
-[![rivest-mongo](https://quay.io/repository/jlospinoso/rivest-mongo/status "Docker Repository on Quay")](https://quay.io/repository/jlospinoso/rivest-mongo)
+[![rivest-mongo container](https://quay.io/repository/jlospinoso/rivest-mongo/status "rivest-mongo Docker Repository on Quay")](https://quay.io/repository/jlospinoso/rivest-mongo)
 
 You actually don't need anything in this repository to get started. Simply create
 a `docker-compose.yml` that looks like this:
@@ -27,14 +27,14 @@ version: '2'
 
 services:
   mongo:
-    image: quay.io/jalospinoso/rivest-mongo
+    image: quay.io/jlospinoso/rivest-mongo
     expose:
     - "27017"
     ports:
     - "27017:27017"
     restart: always
   rivestment:
-    image: quay.io/jalospinoso/rivestment
+    image: quay.io/jlospinoso/rivestment
     ports:
     - "80:80"
     restart: always

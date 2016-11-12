@@ -2,14 +2,14 @@ version: '2'
 
 services:
   mongo:
-    image: quay.io/jalospinoso/rivestment
+    image: quay.io/jlospinoso/rivestment
     expose:
     - "27017"
     ports:
     - "27017:27017"
     restart: always
   rivestment:
-    image: quay.io/jalospinoso/rivestment
+    image: quay.io/jlospinoso/rivestment
     ports:
     - "80:80"
     restart: always
