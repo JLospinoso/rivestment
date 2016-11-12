@@ -20,49 +20,12 @@ service. Both of these services are containerized and available on
 [![rivest-mongo container](https://quay.io/repository/jlospinoso/rivest-mongo/status "rivest-mongo Docker Repository on Quay")](https://quay.io/repository/jlospinoso/rivest-mongo)
 
 You actually don't need anything in this repository to get started. Simply create
-a `docker-compose.yml` that looks like this:
-
-```yml
-version: '2'
-
-services:
-  mongo:
-    image: quay.io/jlospinoso/rivest-mongo
-    expose:
-    - "27017"
-    ports:
-    - "27017:27017"
-    restart: always
-  rivestment:
-    image: quay.io/jlospinoso/rivestment
-    ports:
-    - "80:80"
-    restart: always
-    links:
-    - mongo:mongo
-    entrypoint: npm start
-    environment:
-    - MONGO_URL=mongodb://192.168.99.100:27017/rivestment
-    - COLLECTION_NAME=profiles
-    - BOT_NAME=scorebot
-    - PREIMAGE_RANGE=hark
-    - PASSWORD_RANGE=abcdefghijklmnopqrstuvwxyz0123456789
-    - N_CHALLENGES=10
-    - PASSWORD_SIZE=6
-    - CHALLENGE_COST=50
-    - INCORRECT_PENALTY=5
-    - MAX_LEVEL=25
-    - MAX_SCRAPS=250
-    - SLACK_TOKEN=!!PUT-YOUR-TOKEN-HERE!!
-    - STARTING_SCORE=100
-```
-
-_This example is also available in the repository as `docker-compose.yml-remote`.
+a `docker-compose.yml` that looks like `docker-compose.yml-remote`.
 You will need to rename it to `docker-compose.yml` if you intend to use it as
-a template._
+a template.
 
 All you need to do is [generate a Slack API Token here](https://api.slack.com/tokens)
-and insert it onto this line of the `docker-compose.yml`:
+and insert it onto this line of your `docker-compose.yml`:
 
 ```yml
     - SLACK_TOKEN=!!PUT-YOUR-TOKEN-HERE!!
@@ -81,43 +44,7 @@ Building Rivestment
 ==
 
 Of course, you can pull down this repository and customize Rivestment to your liking.
-In this case, you'll want to use the `docker-compose.yml` that ships with the repository:
-
-```yml
-version: '2'
-
-services:
-  mongo:
-    build: ./Mongo
-    expose:
-    - "27017"
-    ports:
-    - "27017:27017"
-    restart: always
-  rivestment:
-    build: ./Rivestment
-    ports:
-    - "80:80"
-    restart: always
-    links:
-    - mongo:mongo
-    entrypoint: npm start
-    environment:
-    - MONGO_URL=mongodb://192.168.99.100:27017/rivestment
-    - COLLECTION_NAME=profiles
-    - BOT_NAME=scorebot
-    - PREIMAGE_RANGE=hark
-    - PASSWORD_RANGE=abcdefghijklmnopqrstuvwxyz0123456789
-    - N_CHALLENGES=10
-    - PASSWORD_SIZE=6
-    - CHALLENGE_COST=50
-    - INCORRECT_PENALTY=5
-    - MAX_LEVEL=25
-    - MAX_SCRAPS=250
-    - SLACK_TOKEN=!!PUT-YOUR-TOKEN-HERE!!
-    - STARTING_SCORE=100
-```
-
+In this case, you'll want to use the `docker-compose.yml` that ships with the repository.
 Again, you'll need to replace the `SLACK_TOKEN` environment variable with a valid one.
 Rather than pulling the images from the quay.io repository, in this approach you'll build
 your own custom images.

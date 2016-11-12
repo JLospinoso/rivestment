@@ -2,7 +2,7 @@ version: '2'
 
 services:
   mongo:
-    image: quay.io/jlospinoso/rivestment
+    image: quay.io/jlospinoso/rivest-mongo
     expose:
     - "27017"
     ports:
