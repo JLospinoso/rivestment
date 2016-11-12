@@ -57,6 +57,10 @@ services:
     - STARTING_SCORE=100
 ```
 
+_This example is also available in the repository as `docker-compose.yml-remote`.
+You will need to rename it to `docker-compose.yml` if you intend to use it as
+a template._
+
 All you need to do is [generate a Slack API Token here](https://api.slack.com/tokens)
 and insert it onto this line of the `docker-compose.yml`:
 
