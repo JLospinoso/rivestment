@@ -27,6 +27,11 @@ const getSettings = function() {
 let ioSocket;
 let mongoDb = null;
 
+// Inclusive of min, exclusive of max: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
 const queryMongo = function(callback) {
     if(!mongoDb) {
         mongo.connect(mongoUrl, function (err, db) {
@@ -124,12 +129,10 @@ function rmUser(user, success) {
     });
 }
 
-const randomInts = function (minimum, maximum) {
+const randomInts = function (minimum, maximum, n) {
     let list = [];
-    let range = maximum - minimum;
-    for (let i = 0; i <= range; i++) {
-        let nextValue = minimum + Math.floor(Math.random() * range + 1);
-        list.push(nextValue);
+    for (let i = 0; i <= n; i++) {
+        list.push(getRandomInt(minimum, maximum));
     }
     return list;
 };
@@ -228,7 +231,9 @@ const handle = function (user, channel, cmd) {
                 return;
             }
             userProfile.score -= challengeCost;
-            let difficulties = randomInts(userProfile.level, userProfile.level + nChallenges - 1);
+            let minimumDifficulty = userProfile.level;
+            let maximumDifficultyExclusive = userProfile.level + nChallenges;
+            let difficulties = randomInts(minimumDifficulty, maximumDifficultyExclusive, nChallenges);
             let keys = makeKeys(userProfile.salt, difficulties);
             let hashes = makeHashes(keys);
             userProfile.challenges.difficulty = userProfile.challenges.difficulty.concat(difficulties);
