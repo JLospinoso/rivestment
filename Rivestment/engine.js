@@ -131,7 +131,7 @@ function rmUser(user, success) {
 
 const randomInts = function (minimum, maximum, n) {
     let list = [];
-    for (let i = 0; i <= n; i++) {
+    for (let i = 0; i < n; i++) {
         list.push(getRandomInt(minimum, maximum));
     }
     return list;
@@ -139,15 +139,15 @@ const randomInts = function (minimum, maximum, n) {
 
 const makeRandom = function (length, chars) {
     let text = "";
-    for (let i = 0; i < length; i++)
+    for (let i = 0; i < length; i++) {
         text += chars.charAt(Math.floor(Math.random() * chars.length));
-
+    }
     return text;
 };
 
 const makeKeys = function (salt, lengths) {
     let challenges = [];
-    for (let i = 0; i < nChallenges; i++) {
+    for (let i = 0; i < lengths.length; i++) {
         challenges.push(makeRandom(lengths[i] - 1, preimageRange) + salt);
     }
     return challenges;
@@ -232,7 +232,7 @@ const handle = function (user, channel, cmd) {
             }
             userProfile.score -= challengeCost;
             let minimumDifficulty = userProfile.level;
-            let maximumDifficultyExclusive = userProfile.level + nChallenges;
+            let maximumDifficultyExclusive = minimumDifficulty + nChallenges;
             let difficulties = randomInts(minimumDifficulty, maximumDifficultyExclusive, nChallenges);
             let keys = makeKeys(userProfile.salt, difficulties);
             let hashes = makeHashes(keys);
