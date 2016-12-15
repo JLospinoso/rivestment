@@ -13,6 +13,7 @@ const challengeCost = parseInt(process.env.CHALLENGE_COST);
 const incorrectPenalty = parseInt(process.env.INCORRECT_PENALTY);
 const maxLevel = parseInt(process.env.MAX_LEVEL);
 const maxScraps = parseInt(process.env.MAX_SCRAPS);
+const maxSubmissions = parseInt(process.env.MAX_SUBMISSIONS);
 const startingScore = parseInt(process.env.STARTING_SCORE);
 
 const getSettings = function() {
@@ -243,8 +244,7 @@ const handle = function (user, channel, cmd) {
             let challengeMessage = userProfile.name + " challenges ";
             for (let i = 0; i < hashes.length; i++) {
                 challengeMessage += hashes[i]
-                    + " " + userProfile.salt
-                    + ",";
+                    + " "
             }
             challengeMessage = challengeMessage.substring(0, challengeMessage.length - 1);
             updateUser(userProfile, function () {
@@ -286,37 +286,43 @@ const handle = function (user, channel, cmd) {
             return;
         }
         getUser(user, function(userProfile) {
-            let challengeIndex = userProfile.challenges.hash.indexOf(cmd[1]);
-            if (challengeIndex == -1) {
-                messageSender("I don't know what challenge you're talking about, " + userProfile.name, channel);
-                return;
-            }
-            let preimage = userProfile.challenges.key[challengeIndex];
-            if (preimage != cmd[2]) {
-                messageSender(cmd[1] + " is not the MD5 hash of " + cmd[2] + ". You just lost " + incorrectPenalty + " point(s), " + userProfile.name, channel);
-                userProfile.score -= incorrectPenalty;
-                ioSocket.emit('update', {
-                    type: "Penalty",
-                    user: userProfile.name,
-                    text: "Got a penalty for submitting " + cmd[1] + " as the hash of " + cmd[2] + "."
-                });
-            } else {
-                ioSocket.emit('update', {
-                    type: "Scored",
-                    user: userProfile.name,
-                    text: "Solved " + userProfile.challenges.key[challengeIndex] + " for "
+            const nSubmissions = Math.min(maxSubmissions, (cmd.length-1)/2);
+            for (let i=1; (i-1)/2<nSubmissions; i+=2) {
+                let hashSubmission = cmd[i];
+                let keySubmission = cmd[i+1];
+                let challengeIndex = userProfile.challenges.hash.indexOf(hashSubmission);
+                if (challengeIndex == -1) {
+                    messageSender("I don't know what challenge you're talking about, " + userProfile.name, channel);
+                    return;
+                }
+                let preimage = userProfile.challenges.key[challengeIndex];
+                if (preimage != keySubmission) {
+                    messageSender(hashSubmission + " is not the MD5 hash of " + keySubmission + ". You just lost "
+                        + incorrectPenalty + " point(s), " + userProfile.name, channel);
+                    userProfile.score -= incorrectPenalty;
+                    ioSocket.emit('update', {
+                        type: "Penalty",
+                        user: userProfile.name,
+                        text: "Got a penalty for submitting " + keySubmission + " as the hash of " + hashSubmission + "."
+                    });
+                } else {
+                    ioSocket.emit('update', {
+                        type: "Scored",
+                        user: userProfile.name,
+                        text: "Solved " + userProfile.challenges.key[challengeIndex] + " for "
                         + userProfile.challenges.difficulty[challengeIndex] + " points."
+                    });
+                    let pointsEarned = userProfile.challenges.difficulty[challengeIndex];
+                    userProfile.challenges.difficulty.splice(challengeIndex, 1);
+                    userProfile.challenges.salt.splice(challengeIndex, 1);
+                    userProfile.challenges.key.splice(challengeIndex, 1);
+                    userProfile.challenges.hash.splice(challengeIndex, 1);
+                    userProfile.score += pointsEarned;
+                }
+                updateUser(userProfile, function() {
+                    updateClientScoreboards();
                 });
-                let pointsEarned = userProfile.challenges.difficulty[challengeIndex];
-                userProfile.challenges.difficulty.splice(challengeIndex, 1);
-                userProfile.challenges.salt.splice(challengeIndex, 1);
-                userProfile.challenges.key.splice(challengeIndex, 1);
-                userProfile.challenges.hash.splice(challengeIndex, 1);
-                userProfile.score += pointsEarned;
             }
-            updateUser(userProfile, function() {
-                updateClientScoreboards();
-            });
         });
     } else if (cmd[0] == "scraps") {
         getUser(user, function(userProfile) {
