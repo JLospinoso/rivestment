@@ -99,7 +99,7 @@ ${settings.prefix} scraps
 The response is in an analogous format to the \`challenges\` response, e.g.
 
 \`\`\`
-jbot challenges a6ae2e0501b9757668b360d71efe75cf d5777df5589dff6fa803ffdfc2d9434d
+jbot scraps a6ae2e0501b9757668b360d71efe75cf d5777df5589dff6fa803ffdfc2d9434d
 d129a5ef717217ce56e7f6724842ea1e 9fe198993f1e9ae25ba2e81121bb7ac2 
 d5f2d6187ab8494115e9607b9eed445e 6b65fdbfa3a1bfbc0e6a3081f6629602 
 294df8b85ad22f3911ec04c4383cbc1b 7547a67db8f3eddcbf981d7d19018283 

@@ -26,7 +26,8 @@ app.get('/profiles.json', function(req, res){
 });
 app.use('/', express.static(__dirname + '/dist/www'));
 app.use('/js', express.static(__dirname + '/dist/www/js'));
-app.use('/css', express.static(__dirname + '/dist/css'));
+app.use('/css', express.static(__dirname + '/dist/www/css'));
+app.use('/img', express.static(__dirname + '/dist/www/img'));
 app.use("*", function(req, res){
     res.sendFile(__dirname + '/dist/www/' + "404.html");
 });

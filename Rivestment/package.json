@@ -4,6 +4,7 @@
   "description": "A game of MD5 hash collisions",
   "main": "index.js",
   "scripts": {
+    "copyimg": "copyfiles -f lib/www/img/*.svg dist/www/img",
     "copyhtml": "copyfiles -f lib/www/*.html dist/www/",
     "copycss": "copyfiles -f lib/www/css/*.css node_modules/bootstrap/dist/css/bootstrap.css dist/www/css",
     "copyjs": "copyfiles -f node_modules/markdown/lib/markdown.js node_modules/jquery/dist/jquery.js node_modules/bootstrap/dist/js/bootstrap.js node_modules/react/dist/react.js node_modules/react/dist/react.js node_modules/react-dom/dist/react-dom.js dist/www/js",

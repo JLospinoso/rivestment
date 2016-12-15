@@ -8,3 +8,4 @@ RUN npm run-script build
 RUN npm run-script copyhtml
 RUN npm run-script copycss
 RUN npm run-script copyjs
+RUN npm run-script copyimg

@@ -146,10 +146,10 @@ const makeRandom = function (length, chars) {
     return text;
 };
 
-const makeKeys = function (salt, lengths) {
+const makeKeys = function (password, lengths) {
     let challenges = [];
     for (let i = 0; i < lengths.length; i++) {
-        challenges.push(makeRandom(lengths[i] - 1, preimageRange) + salt);
+        challenges.push(makeRandom(lengths[i] - 1, preimageRange) + password);
     }
     return challenges;
 };
@@ -163,14 +163,6 @@ const makeHashes = function (keys) {
         hashes.push(hashedKey);
     });
     return hashes;
-};
-
-const repeat = function (x) {
-    let result = [];
-    for (let i = 0; i < nChallenges; i++) {
-        result.push(x);
-    }
-    return result;
 };
 
 let messageSender = function (message, channel) {
@@ -189,10 +181,9 @@ const newUserProfile = function(name, user) {
         score: startingScore,
         name: name,
         user: user,
-        salt: makeRandom(passwordSize, passwordRange),
+        password: makeRandom(passwordSize, passwordRange),
         level: 1,
         challenges: {
-            salt: [],
             hash: [],
             key: [],
             difficulty: []
@@ -235,10 +226,9 @@ const handle = function (user, channel, cmd) {
             let minimumDifficulty = userProfile.level;
             let maximumDifficultyExclusive = minimumDifficulty + nChallenges;
             let difficulties = randomInts(minimumDifficulty, maximumDifficultyExclusive, nChallenges);
-            let keys = makeKeys(userProfile.salt, difficulties);
+            let keys = makeKeys(userProfile.password, difficulties);
             let hashes = makeHashes(keys);
             userProfile.challenges.difficulty = userProfile.challenges.difficulty.concat(difficulties);
-            userProfile.challenges.salt = userProfile.challenges.salt.concat(repeat(userProfile.salt));
             userProfile.challenges.key = userProfile.challenges.key.concat(keys);
             userProfile.challenges.hash = userProfile.challenges.hash.concat(hashes);
             let challengeMessage = userProfile.name + " challenges";
@@ -284,7 +274,7 @@ const handle = function (user, channel, cmd) {
                 messageSender("You are not registered.", channel);
                 return;
             }
-            messageSender(userProfile.name + " password " + userProfile.salt, channel);
+            messageSender(userProfile.name + " password " + userProfile.password, channel);
         });
     } else if (cmd[0] == "try") {
         if (!cmd[1] || !cmd[2]) {
@@ -320,7 +310,6 @@ const handle = function (user, channel, cmd) {
                     });
                     let pointsEarned = userProfile.challenges.difficulty[challengeIndex];
                     userProfile.challenges.difficulty.splice(challengeIndex, 1);
-                    userProfile.challenges.salt.splice(challengeIndex, 1);
                     userProfile.challenges.key.splice(challengeIndex, 1);
                     userProfile.challenges.hash.splice(challengeIndex, 1);
                     userProfile.score += pointsEarned;

@@ -9,7 +9,7 @@ const rowsFromProfiles = function(profiles) {
         scoreboardRows.push({
             bot: profile.name,
             score: profile.score,
-            password: profile.salt,
+            password: profile.password,
             level: profile.level,
             scraps: profile.challenges.hash.length
         });
