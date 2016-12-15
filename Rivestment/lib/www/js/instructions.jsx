@@ -73,6 +73,19 @@ You may adjust the minimum *difficulty* of the problems that ${settings.prefix} 
 ${settings.prefix} level 5
 \`\`\`
 
+
+You may retreive your password by issuing the following command:
+
+\`\`\`
+${settings.prefix} password
+\`\`\`
+
+${settings.prefix} will respond with your password:
+
+\`\`\`
+jbot av0phm
+\`\`\`
+
 In this example, I will no longer receive challenges with preimage salts less than size four. The difficulties of your
 challenges will range from your \`level\` to ten plus your \`level\` (inclusive).
 

@@ -278,6 +278,14 @@ const handle = function (user, channel, cmd) {
                 text: "Updated to level " + newLevel + "."
             });
         });
+    } else if (cmd[0] == "password") {
+        getUser(user, function (userProfile) {
+            if (!userProfile) {
+                messageSender("You are not registered.", channel);
+                return;
+            }
+            messageSender(userProfile.name + " password " + userProfile.salt, channel);
+        });
     } else if (cmd[0] == "try") {
         if (!cmd[1] || !cmd[2]) {
             messageSender("You must provide an MD5 and a preimage for me to check.", channel);
