@@ -37,24 +37,18 @@ ${settings.prefix} challenge
 and ${settings.prefix} will respond with a strictly formatted string corresponding to your challenges, e.g.:
 
 \`\`\`
-jbot challenges 303d14ff089e96ef12918f26679cebb6 av0phm,
-a6ae2e0501b9757668b360d71efe75cf av0phm,
-d5777df5589dff6fa803ffdfc2d9434d av0phm,
-d129a5ef717217ce56e7f6724842ea1e av0phm,
-9fe198993f1e9ae25ba2e81121bb7ac2 av0phm,
-d5f2d6187ab8494115e9607b9eed445e av0phm,
-6b65fdbfa3a1bfbc0e6a3081f6629602 av0phm,
-294df8b85ad22f3911ec04c4383cbc1b av0phm,
-7547a67db8f3eddcbf981d7d19018283 av0phm,
-2c1dc90e3d591a8fd17b3ed1c941bd86 av0phm
+jbot challenges 303d14ff089e96ef12918f26679cebb6 a6ae2e0501b9757668b360d71efe75cf
+d5777df5589dff6fa803ffdfc2d9434d d129a5ef717217ce56e7f6724842ea1e
+9fe198993f1e9ae25ba2e81121bb7ac2 d5f2d6187ab8494115e9607b9eed445e
+6b65fdbfa3a1bfbc0e6a3081f6629602 294df8b85ad22f3911ec04c4383cbc1b
+7547a67db8f3eddcbf981d7d19018283 2c1dc90e3d591a8fd17b3ed1c941bd86
 \`\`\`
 
 _(There are no newlines in the actual responses.)_
 
-The string is space and comma delimited. The first token is the name that you registered with (*note that this will cause Slack
+The string is space delimited. The first token is the name that you registered with (*note that this will cause Slack
 bots to trigger!*). Next is the word "challenges", which you may use in a Slack bot to trigger a command. The remainder of
-the string is a series of hash-password pairs (these tokens are further comma delimited). The first element in each pair is the hash
-that you must find. The second element is your unique "password". The preimage will
+the string is a series of hashes delimited by spaces. The preimage will
 end with your password, and a random number of salt digits are prepended. The valid alphabet for this salt is
 the following string: *${settings.preimageRange}*.
 
@@ -64,6 +58,9 @@ command, e.g.:
 \`\`\`
 ${settings.prefix} try 303d14ff089e96ef12918f26679cebb6 hkhrrav0phm
 \`\`\`
+
+You may submit multiple hashes in one \`try\`. Simply space delimit the hash/preimage pairs and continue adding them
+to the submission (up to ${settings.maxSubmissions}). 
 
 The third token is the hash that you have found, and the fourth token is the corresponding preimage.
 Note that my password, \`av0phm\`, is at the end of my preimage. The salt portion for this example is \`hkhrr\`.
@@ -89,15 +86,11 @@ ${settings.prefix} scraps
 The response is in an analogous format to the \`challenges\` response, e.g.
 
 \`\`\`
-jbot challenges a6ae2e0501b9757668b360d71efe75cf av0phm,
-d5777df5589dff6fa803ffdfc2d9434d av0phm,
-d129a5ef717217ce56e7f6724842ea1e av0phm,
-9fe198993f1e9ae25ba2e81121bb7ac2 av0phm,
-d5f2d6187ab8494115e9607b9eed445e av0phm,
-6b65fdbfa3a1bfbc0e6a3081f6629602 av0phm,
-294df8b85ad22f3911ec04c4383cbc1b av0phm,
-7547a67db8f3eddcbf981d7d19018283 av0phm,
-2c1dc90e3d591a8fd17b3ed1c941bd86 av0phm
+jbot challenges a6ae2e0501b9757668b360d71efe75cf d5777df5589dff6fa803ffdfc2d9434d
+d129a5ef717217ce56e7f6724842ea1e 9fe198993f1e9ae25ba2e81121bb7ac2 
+d5f2d6187ab8494115e9607b9eed445e 6b65fdbfa3a1bfbc0e6a3081f6629602 
+294df8b85ad22f3911ec04c4383cbc1b 7547a67db8f3eddcbf981d7d19018283 
+2c1dc90e3d591a8fd17b3ed1c941bd86
 \`\`\`
 
 _Note that, in this example, the \`[NAME]\` I registered was \`jbot\`_
