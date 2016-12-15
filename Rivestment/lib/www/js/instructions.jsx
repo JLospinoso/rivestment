@@ -52,7 +52,7 @@ the string is a series of hashes delimited by spaces. The preimage will
 end with your password, and a random number of salt digits are prepended. The valid alphabet for this salt is
 the following string: *${settings.preimageRange}*.
 
-Once you have found the preimage for one of your challenges, simply tell ${settings.preimageRange} by using the try
+Once you have found the preimage for one of your challenges, simply tell ${settings.prefix} by using the try
 command, e.g.:
 
 \`\`\`
@@ -83,7 +83,7 @@ ${settings.prefix} password
 ${settings.prefix} will respond with your password:
 
 \`\`\`
-jbot av0phm
+jbot password av0phm
 \`\`\`
 
 In this example, I will no longer receive challenges with preimage salts less than size four. The difficulties of your
