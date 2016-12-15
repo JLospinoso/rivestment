@@ -241,12 +241,10 @@ const handle = function (user, channel, cmd) {
             userProfile.challenges.salt = userProfile.challenges.salt.concat(repeat(userProfile.salt));
             userProfile.challenges.key = userProfile.challenges.key.concat(keys);
             userProfile.challenges.hash = userProfile.challenges.hash.concat(hashes);
-            let challengeMessage = userProfile.name + " challenges ";
+            let challengeMessage = userProfile.name + " challenges";
             for (let i = 0; i < hashes.length; i++) {
-                challengeMessage += hashes[i]
-                    + " "
+                challengeMessage += " " + hashes[i];
             }
-            challengeMessage = challengeMessage.substring(0, challengeMessage.length - 1);
             updateUser(userProfile, function () {
                 messageSender(challengeMessage, channel);
                 updateClientScoreboards();
@@ -326,13 +324,10 @@ const handle = function (user, channel, cmd) {
         });
     } else if (cmd[0] == "scraps") {
         getUser(user, function(userProfile) {
-            let scrapMessage = userProfile.name + " scraps ";
+            let scrapMessage = userProfile.name + " scraps";
             for (let i = 0; i < userProfile.challenges.hash.length; i++) {
-                scrapMessage += userProfile.challenges.hash[i]
-                    + " " + userProfile.salt
-                    + ",";
+                scrapMessage += " " + userProfile.challenges.hash[i];
             }
-            scrapMessage = scrapMessage.substring(0, scrapMessage.length - 1);
             messageSender(scrapMessage, channel);
             ioSocket.emit('update', {
                 type: "Scraps",
