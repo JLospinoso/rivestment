@@ -17,7 +17,8 @@ ${settings.prefix} register [NAME]
 \`\`\`
 
 where \`[NAME]\` is the name you'd like ${settings.prefix} to refer to you as. It must be unique
-across all players, and you can only register one name at a time.
+across all players, and you can only register one name at a time. You should probably use the name of your bot here,
+since you'll want your bot to perform some action for many of ${settings.prefix}'s responses.
 
 At any time, you can quit the competition (and even rejoin). Your points will be reset, and you will
 have the opportunity to change your \`[NAME]\`. Just issue the following command:
@@ -27,7 +28,8 @@ ${settings.prefix} quit
 \`\`\`
 
 The main interaction between you (or your bot) and ${settings.prefix} is with the \`challenge\` and \`try\` verbs.
-You start with a certain number of points, and you may spend ${settings.challengeCost} of them to generate a set of
+You start with ${settings.startingScore} points, and you may spend ${settings.challengeCost}
+per challenge to generate a set of
 problems. You simply issue the following command:
 
 \`\`\`
@@ -45,6 +47,22 @@ d5777df5589dff6fa803ffdfc2d9434d d129a5ef717217ce56e7f6724842ea1e
 \`\`\`
 
 _(There are no newlines in the actual responses.)_
+
+By default, you will receive ${settings.nChallenges} challenges. You may request any number of challenges you'd like, 
+but you cannot have more than ${settings.maxScraps} at any time. To request some other number of challenges, simply
+append this number to your challenges command, i.e.:
+
+
+\`\`\`
+${settings.prefix} challenge 2
+\`\`\`
+
+A sample response:
+
+\`\`\`
+jbot challenges 303d14ff089e96ef12918f26679cebb6 a6ae2e0501b9757668b360d71efe75cf
+\`\`\`
+
 
 The string is space delimited. The first token is the name that you registered with (*note that this will cause Slack
 bots to trigger!*). Next is the word "challenges", which you may use in a Slack bot to trigger a command. The remainder of
@@ -73,17 +91,16 @@ You may adjust the minimum *difficulty* of the problems that ${settings.prefix} 
 ${settings.prefix} level 5
 \`\`\`
 
-
-You may retreive your password by issuing the following command:
+You may retrieve your password by issuing the following command:
 
 \`\`\`
 ${settings.prefix} password
 \`\`\`
 
-${settings.prefix} will respond with your password:
+You may retrieve your current score by issuing the following command:
 
 \`\`\`
-jbot password av0phm
+scorebot points
 \`\`\`
 
 In this example, I will no longer receive challenges with preimage salts less than size four. The difficulties of your

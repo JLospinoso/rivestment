@@ -15,13 +15,18 @@ const maxLevel = parseInt(process.env.MAX_LEVEL);
 const maxScraps = parseInt(process.env.MAX_SCRAPS);
 const maxSubmissions = parseInt(process.env.MAX_SUBMISSIONS);
 const startingScore = parseInt(process.env.STARTING_SCORE);
+const difficultyRange = parseInt(process.env.DIFFICULTY_RANGE);
 
 const getSettings = function() {
     return {
         prefix: botName,
         challengeCost: challengeCost,
         incorrectCost: incorrectPenalty,
-        preimageRange: preimageRange
+        preimageRange: preimageRange,
+        startingScore: startingScore,
+        nChallenges: nChallenges,
+        maxScraps: maxScraps,
+        maxSubmissions: maxSubmissions
     }
 };
 
@@ -149,7 +154,7 @@ const makeRandom = function (length, chars) {
 const makeKeys = function (password, lengths) {
     let challenges = [];
     for (let i = 0; i < lengths.length; i++) {
-        challenges.push(makeRandom(lengths[i] - 1, preimageRange) + password);
+        challenges.push(makeRandom(lengths[i], preimageRange) + password);
     }
     return challenges;
 };
@@ -208,24 +213,37 @@ const handle = function (user, channel, cmd) {
         );
     }
     if (cmd[0] == "challenge") {
+        let challengesRequested = parseInt(cmd[1]);
+        if(!challengesRequested) {
+            challengesRequested = nChallenges;
+        }
+        const bill = challengeCost * challengesRequested;
         getUser(user, function (userProfile) {
             if (!userProfile) {
                 messageSender("You are not registered.", channel);
                 return;
             }
-            if (userProfile.score - challengeCost < 0) {
-                messageSender("You are broke, " + userProfile.name + " either quit or solve some scraps.", channel);
+            const nScraps = userProfile.challenges.hash.length;
+            const proposedScraps = nScraps + challengesRequested;
+            if(challengesRequested > proposedScraps) {
+                messageSender("I can't give you " + challengesRequested + " challenges, " + userProfile.name + ". You would "
+                    + " have " + proposedScraps + " scraps, and that's greater than the limit of " + challengesRequested + ".")
                 return;
             }
-            if (userProfile.challenges.hash.length > maxScraps) {
+            if (userProfile.score - bill < 0) {
+                messageSender("You can't pay that bill, " + userProfile.name + ".  You need " + bill + "points to get" +
+                    "that many challenges. Either quit or solve some scraps.", channel);
+                return;
+            }
+            if (nScraps > maxScraps) {
                 messageSender("You have too many scraps, " + userProfile.name + "! Solve one of your " +
-                    userProfile.challenges.hash.length + " challenges.", channel);
+                    nScraps + " challenges.", channel);
                 return;
             }
-            userProfile.score -= challengeCost;
+            userProfile.score -= bill;
             let minimumDifficulty = userProfile.level;
-            let maximumDifficultyExclusive = minimumDifficulty + nChallenges;
-            let difficulties = randomInts(minimumDifficulty, maximumDifficultyExclusive, nChallenges);
+            let maximumDifficultyExclusive = minimumDifficulty + difficultyRange;
+            let difficulties = randomInts(minimumDifficulty, maximumDifficultyExclusive, challengesRequested);
             let keys = makeKeys(userProfile.password, difficulties);
             let hashes = makeHashes(keys);
             userProfile.challenges.difficulty = userProfile.challenges.difficulty.concat(difficulties);
@@ -265,7 +283,8 @@ const handle = function (user, channel, cmd) {
             ioSocket.emit('update', {
                 type: "Level",
                 user: userProfile.name,
-                text: "Updated to level " + newLevel + "."
+                text: "Updated to level " + newLevel + ".",
+                level: newLevel
             });
         });
     } else if (cmd[0] == "password") {
@@ -275,6 +294,14 @@ const handle = function (user, channel, cmd) {
                 return;
             }
             messageSender(userProfile.name + " password " + userProfile.password, channel);
+        });
+    } else if (cmd[0] == "points") {
+        getUser(user, function (userProfile) {
+            if (!userProfile) {
+                messageSender("You are not registered.", channel);
+                return;
+            }
+            messageSender(userProfile.name + " points " + userProfile.score, channel);
         });
     } else if (cmd[0] == "try") {
         if (!cmd[1] || !cmd[2]) {
@@ -306,7 +333,8 @@ const handle = function (user, channel, cmd) {
                         type: "Scored",
                         user: userProfile.name,
                         text: "Solved " + userProfile.challenges.key[challengeIndex] + " for "
-                        + userProfile.challenges.difficulty[challengeIndex] + " points."
+                        + userProfile.challenges.difficulty[challengeIndex] + " points.",
+                        score: userProfile.score
                     });
                     let pointsEarned = userProfile.challenges.difficulty[challengeIndex];
                     userProfile.challenges.difficulty.splice(challengeIndex, 1);
