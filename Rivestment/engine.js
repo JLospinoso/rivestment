@@ -332,10 +332,10 @@ const handle = function (user, channel, cmd) {
                     userProfile.challenges.hash.splice(challengeIndex, 1);
                     userProfile.score += pointsEarned;
                 }
-                updateUser(userProfile, function() {
-                    updateClientScoreboards();
-                });
             }
+            updateUser(userProfile, function() {
+                updateClientScoreboards();
+            });
             ioSocket.emit('update', {
                 type: "Submission",
                 user: userProfile.name,
