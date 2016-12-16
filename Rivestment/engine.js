@@ -310,9 +310,11 @@ const handle = function (user, channel, cmd) {
         }
         getUser(user, function(userProfile) {
             const nSubmissions = Math.min(maxSubmissions, (cmd.length-1)/2);
-            for (let i=1; (i-1)/2<nSubmissions; i+=2) {
-                let hashSubmission = cmd[i];
-                let keySubmission = cmd[i+1];
+            for (let i=0; i<nSubmissions; i++) {
+                const hashIndex = 2*i+1;
+                const keyIndex = hashIndex+1;
+                let hashSubmission = cmd[hashIndex];
+                let keySubmission = cmd[keyIndex];
                 let challengeIndex = userProfile.challenges.hash.indexOf(hashSubmission);
                 if (challengeIndex == -1) {
                     messageSender("I don't know what challenge you're talking about, " + userProfile.name, channel);
@@ -335,9 +337,9 @@ const handle = function (user, channel, cmd) {
                 });
             }
             ioSocket.emit('update', {
-                type: "Scored",
+                type: "Submission",
                 user: userProfile.name,
-                text: "Made a submission.",
+                text: "Made " + nSubmissions + ". New score: " + userProfile.score,
                 score: userProfile.score
             });
         });
