@@ -225,7 +225,7 @@ const handle = function (user, channel, cmd) {
             }
             const nScraps = userProfile.challenges.hash.length;
             const proposedScraps = nScraps + challengesRequested;
-            if(challengesRequested > proposedScraps) {
+            if(proposedScraps > maxScraps) {
                 messageSender("I can't give you " + challengesRequested + " challenges, " + userProfile.name + ". You would "
                     + " have " + proposedScraps + " scraps, and that's greater than the limit of " + challengesRequested + ".")
                 return;
@@ -323,19 +323,7 @@ const handle = function (user, channel, cmd) {
                     messageSender(hashSubmission + " is not the MD5 hash of " + keySubmission + ". You just lost "
                         + incorrectPenalty + " point(s), " + userProfile.name, channel);
                     userProfile.score -= incorrectPenalty;
-                    ioSocket.emit('update', {
-                        type: "Penalty",
-                        user: userProfile.name,
-                        text: "Got a penalty for submitting " + keySubmission + " as the hash of " + hashSubmission + "."
-                    });
                 } else {
-                    ioSocket.emit('update', {
-                        type: "Scored",
-                        user: userProfile.name,
-                        text: "Solved " + userProfile.challenges.key[challengeIndex] + " for "
-                        + userProfile.challenges.difficulty[challengeIndex] + " points.",
-                        score: userProfile.score
-                    });
                     let pointsEarned = userProfile.challenges.difficulty[challengeIndex];
                     userProfile.challenges.difficulty.splice(challengeIndex, 1);
                     userProfile.challenges.key.splice(challengeIndex, 1);
@@ -346,6 +334,12 @@ const handle = function (user, channel, cmd) {
                     updateClientScoreboards();
                 });
             }
+            ioSocket.emit('update', {
+                type: "Scored",
+                user: userProfile.name,
+                text: "Made a submission.",
+                score: userProfile.score
+            });
         });
     } else if (cmd[0] == "scraps") {
         getUser(user, function(userProfile) {
