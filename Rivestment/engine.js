@@ -16,6 +16,7 @@ const maxScraps = parseInt(process.env.MAX_SCRAPS);
 const maxSubmissions = parseInt(process.env.MAX_SUBMISSIONS);
 const startingScore = parseInt(process.env.STARTING_SCORE);
 const difficultyRange = parseInt(process.env.DIFFICULTY_RANGE);
+const debugMode = parseInt(process.env.DEBUG_MODE);
 
 const getSettings = function() {
     return {
@@ -403,6 +404,12 @@ module.exports = function(io) {
     range: preimageRange,
     settings: getSettings,
     profiles: function(callback){
-        getAll(callback)
+        let res = getAll(callback);
+        if(!debugMode) {
+            res.forEach( function(x){
+                delete res.challenges;
+            });
+        }
+        return res;
     }
 }};

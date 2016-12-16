@@ -1,5 +1,4 @@
 const slackToken = process.env.SLACK_TOKEN;
-const debugMode = process.env.DEBUG_MODE;
 
 const http = require("http");
 const express = require("express");
@@ -21,9 +20,6 @@ app.get('/settings.json', function(req, res){
 });
 app.get('/profiles.json', function(req, res){
     res.setHeader('Content-Type', 'application/json');
-    if(!debugMode) {
-        res.send({"error": "Access denied."});
-    }
     engine.profiles(function(profiles){
         res.send(JSON.stringify(profiles));
     });
