@@ -231,8 +231,8 @@ const handle = function (user, channel, cmd) {
                 return;
             }
             if (userProfile.score - bill < 0) {
-                messageSender("You can't pay that bill, " + userProfile.name + ".  You need " + bill + "points to get" +
-                    "that many challenges. Either quit or solve some scraps.", channel);
+                messageSender("You can't pay that bill, " + userProfile.name + ".  You need " + bill + " points to get " +
+                    " that many challenges. Either quit or solve some scraps.", channel);
                 return;
             }
             if (nScraps > maxScraps) {
