@@ -1,5 +1,4 @@
-Rivestment
-==
+![Rivestment](https://raw.githubusercontent.com/JLospinoso/rivestment/master/ai/title.png)
 
 Rivestment is a game of MD5 collisions. You interact with the score server
 through Slack chat channels, and winning strategies generally involve building
