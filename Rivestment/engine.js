@@ -404,12 +404,13 @@ module.exports = function(io) {
     range: preimageRange,
     settings: getSettings,
     profiles: function(callback){
-        let res = getAll(callback);
-        if(!debugMode) {
-            res.forEach( function(x){
-                delete res.challenges;
-            });
-        }
-        return res;
+        getAll(function(res){
+            if(!debugMode) {
+                res.forEach( function(x){
+                    delete res.challenges;
+                });
+            }
+            callback(res);
+        });
     }
 }};
