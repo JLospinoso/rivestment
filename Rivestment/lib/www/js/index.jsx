@@ -120,3 +120,9 @@ ReactDOM.render(
 document.getElementById("updates-table")
 );
 
+$( document ).ready(function() {
+    console.log("ready");
+    setInterval(function(){
+        console.log("hello");
+    }, 1000);
+});
