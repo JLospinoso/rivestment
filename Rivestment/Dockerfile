@@ -4,7 +4,7 @@ COPY *.js /opt/Rivestment/
 COPY *.json /opt/Rivestment/
 COPY lib /opt/Rivestment/lib
 RUN npm install
-RUN npm run-script build
+RUN npm run-script compile
 RUN npm run-script copyhtml
 RUN npm run-script copycss
 RUN npm run-script copyjs

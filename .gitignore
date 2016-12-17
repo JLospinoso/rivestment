@@ -43,3 +43,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+Rivestment/node_modules
+Rivestment/web/dist

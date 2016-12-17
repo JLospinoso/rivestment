@@ -4,25 +4,33 @@
   "description": "A game of MD5 hash collisions",
   "main": "index.js",
   "scripts": {
-    "copyimg": "copyfiles -f lib/www/img/*.svg dist/www/img",
-    "copyhtml": "copyfiles -f lib/www/*.html dist/www/",
-    "copycss": "copyfiles -f lib/www/css/*.css node_modules/bootstrap/dist/css/bootstrap.css dist/www/css",
-    "copyjs": "copyfiles -f node_modules/markdown/lib/markdown.js node_modules/jquery/dist/jquery.js node_modules/bootstrap/dist/js/bootstrap.js node_modules/react/dist/react.js node_modules/react/dist/react.js node_modules/react-dom/dist/react-dom.js dist/www/js",
-    "build": "babel lib -d dist --presets es2015,stage-2 --plugins transform-react-jsx",
-    "start": "node server.js"
+    "test-unit": "mocha --require co-mocha test/*test.js",
+    "copyimg": "copyfiles -f web/www/img/*.svg web/dist/www/img",
+    "copyhtml": "copyfiles -f web/www/*.html web/www/favicon.ico web/dist/www/",
+    "copycss": "copyfiles -f web/www/css/*.css  node_modules/metrics-graphics/dist/metricsgraphics.css node_modules/bootstrap/dist/css/bootstrap.css web/dist/www/css",
+    "copyjs": "copyfiles -f node_modules/metrics-graphics/dist/metricsgraphics.js node_modules/d3/build/d3.js node_modules/markdown/lib/markdown.js node_modules/jquery/dist/jquery.js node_modules/bootstrap/dist/js/bootstrap.js node_modules/react/dist/react.js node_modules/react/dist/react.js node_modules/react-dom/dist/react-dom.js web/dist/www/js",
+    "compile": "babel web/www -d web/dist/www --presets es2015,stage-2 --plugins transform-react-jsx",
+    "start": "node index.js",
+    "test": "npm run test-unit"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
+  "keywords": [
+    "competition",
+    "game",
+    "hash"
+  ],
+  "author": "Josh Lospinoso",
+  "license": "AGPL-3.0",
   "dependencies": {
     "babel": "6.5.2",
     "babel-plugin-transform-react-jsx": "6.8.0",
     "bootstrap": "3.3.7",
+    "d3": "4.4.0",
     "express": "4.14.0",
     "express-ws": "2.0.0",
     "jquery": "3.1.1",
     "js-md5": "0.4.1",
-    "mongodb": "2.2.11",
+    "metrics-graphics": "2.11.0",
+    "mongodb": "2.2.16",
     "react": "15.3.2",
     "react-dom": "15.3.2",
     "socket.io": "1.5.0",
@@ -37,9 +45,14 @@
     "babel-cli": "^6.18.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-2": "^6.18.0",
+    "chai": "^3.5.0",
+    "co-mocha": "^1.1.3",
     "copyfiles": "^1.0.0",
     "jsx": "^0.9.89",
     "markdown": "^0.5.0",
-    "nodemon": "^1.11.0"
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0",
+    "sinon": "^1.17.6",
+    "sinon-chai": "^2.8.0"
   }
 }

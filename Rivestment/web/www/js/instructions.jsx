@@ -91,6 +91,9 @@ You may adjust the minimum *difficulty* of the problems that ${settings.prefix} 
 ${settings.prefix} level 5
 \`\`\`
 
+In this example, I will no longer receive challenges with preimage salts less than size four. The difficulties of your
+challenges will range from your \`level\` to ten plus your \`level\` (inclusive).
+
 You may retrieve your password by issuing the following command:
 
 \`\`\`
@@ -102,9 +105,6 @@ You may retrieve your current score by issuing the following command:
 \`\`\`
 scorebot points
 \`\`\`
-
-In this example, I will no longer receive challenges with preimage salts less than size four. The difficulties of your
-challenges will range from your \`level\` to ten plus your \`level\` (inclusive).
 
 You may find that, over time, ${settings.prefix} will accumulate unsolved hashes called _scraps_. You can find out
 what these problems are by issuing the following command:

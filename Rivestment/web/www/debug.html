@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rivestment</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/rivestment.css">
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-default" role="navigation" style="padding-left:130px;">
+        <ul class="nav navbar-nav">
+            <li><a href="/">Rivestment<span class="sr-only">(current)</span></a></li>
+            <li><a href="/instructions.html">Instructions</a></li>
+            <li class="active"><a href="/debug.html">Debug</a></li>
+            <li><a href="https://github.com/jlospinoso/rivestment/issues" target="_blank">Report bug</a></li>
+        </ul>
+    </nav>
+    <br/>
+    <div class="jumbotron" align="center">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <a class="col-lg-6" href="https://github.com/jlospinoso/rivestment" target="_blank">
+                <img src="/img/title.svg"/>
+            </a>
+            <div class="col-lg-3"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <h4>This blob is available as raw JSON <a href="profiles.json">here</a>.</h4>
+            <pre><code id="profile-tree"></code></pre>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/jstree.js"></script>
+<script src="/js/debug.js"></script>
+</body>
+</html>

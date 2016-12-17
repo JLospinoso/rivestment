@@ -5,8 +5,8 @@ const express = require("express");
 const app = express();
 const httpServer = http.Server(app);
 const io = require("socket.io")(httpServer);
-const engine = require("./engine.js")(io);
-const slack = require("./slack.js")(slackToken, engine.messageCallback);
+const engine = require("../engine/index")(io);
+const slack = require("../slack/index")(slackToken, engine.messageCallback);
 engine.setMessageSender(slack.messageSender);
 
 app.get('/reset-slack', function(req, res){

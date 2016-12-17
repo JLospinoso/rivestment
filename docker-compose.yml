@@ -5,8 +5,6 @@ services:
     build: ./Mongo
     expose:
     - "27017"
-    ports:
-    - "27017:27017"
     restart: always
   rivestment:
     build: ./Rivestment
@@ -19,16 +17,18 @@ services:
     environment:
     - MONGO_URL=mongodb://192.168.99.100:27017/rivestment
     - COLLECTION_NAME=profiles
+    - COLLECTION_NAME=profiles
     - BOT_NAME=scorebot
-    - PREIMAGE_RANGE=hark
+    - PREIMAGE_RANGE=migs
     - PASSWORD_RANGE=abcdefghijklmnopqrstuvwxyz0123456789
-    - N_CHALLENGES=10
+    - N_CHALLENGES=25
     - PASSWORD_SIZE=6
     - CHALLENGE_COST=5
     - INCORRECT_PENALTY=5
     - MAX_LEVEL=25
-    - MAX_SCRAPS=250
+    - MAX_SCRAPS=350
     - SLACK_TOKEN=!!PUT-YOUR-TOKEN-HERE!!
-    - STARTING_SCORE=100
-    - MAX_SUBMISSIONS=10
+    - STARTING_SCORE=1000
+    - MAX_SUBMISSIONS=100
     - DIFFICULTY_RANGE=10
+    - DEBUG_MODE=True
