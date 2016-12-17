@@ -1,7 +1,9 @@
 "use strict";
 
+const updateInterval = 10000;
 const maxUpdates = 25;
 const socket = io();
+const scoreHistory = [];
 
 const rowsFromProfiles = function(profiles) {
     const scoreboardRows = [];
@@ -107,22 +109,48 @@ class UpdatesTable extends React.Component {
     }
 }
 
-$.getJSON("profiles.json", function(profiles) {
-    ReactDOM.render(
-        <ScoreboardTable rows={rowsFromProfiles(profiles)}/>,
-        document.getElementById("score-table")
-    );
-
-});
+const writeScores = function() {
+    $.getJSON("profiles.json", function(profiles) {
+        ReactDOM.render(
+            <ScoreboardTable rows={rowsFromProfiles(profiles)}/>,
+            document.getElementById("score-table")
+        );
+        let graphicData = [];
+        let players = [];
+        const now = new Date(Date.now());
+        profiles.forEach(function(profile){
+            if(!scoreHistory[profile.name]) {
+                scoreHistory[profile.name] = []
+            }
+            scoreHistory[profile.name].push({'date': now, 'value': profile.score});
+            const elementsToTrim = Math.max(0, scoreHistory[profile.name].length - maxUpdates);
+            scoreHistory[profile.name].splice(0, elementsToTrim);
+            players.push(profile.name);
+            graphicData.push(scoreHistory[profile.name]);
+        });
+        const boundingBox = document.querySelector('#scores').getBoundingClientRect();
+        const width = boundingBox.right - boundingBox.left;
+        MG.data_graphic({
+            data: graphicData,
+            width: width,
+            height: width * 0.45,
+            missing_is_hidden: false,
+            animate_on_load: false,
+            target: '#scores',
+            legend: players,
+            y_scale_type: 'log',
+            legend_target: '#legend'
+        });
+    });
+};
 
 ReactDOM.render(
     <UpdatesTable/>,
 document.getElementById("updates-table")
 );
 
+
 $( document ).ready(function() {
-    console.log("ready");
-    setInterval(function(){
-        console.log("hello");
-    }, 1000);
+    writeScores();
+    setInterval(writeScores, updateInterval);
 });
