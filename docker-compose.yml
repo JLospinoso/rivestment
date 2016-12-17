@@ -17,7 +17,6 @@ services:
     environment:
     - MONGO_URL=mongodb://192.168.99.100:27017/rivestment
     - COLLECTION_NAME=profiles
-    - COLLECTION_NAME=profiles
     - BOT_NAME=scorebot
     - PREIMAGE_RANGE=migs
     - PASSWORD_RANGE=abcdefghijklmnopqrstuvwxyz0123456789

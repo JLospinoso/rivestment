@@ -1,10 +1,10 @@
 {
   "name": "rivestment",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "A game of MD5 hash collisions",
   "main": "index.js",
   "scripts": {
-    "test-unit": "mocha --require co-mocha test/*test.js",
+    "test-unit": "mocha --require co-mocha **/*test.js",
     "copyimg": "copyfiles -f web/www/img/*.svg web/dist/www/img",
     "copyhtml": "copyfiles -f web/www/*.html web/www/favicon.ico web/dist/www/",
     "copycss": "copyfiles -f web/www/css/*.css  node_modules/metrics-graphics/dist/metricsgraphics.css node_modules/bootstrap/dist/css/bootstrap.css web/dist/www/css",
