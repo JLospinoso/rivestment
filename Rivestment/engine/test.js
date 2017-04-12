@@ -1,4 +1,5 @@
 const expect = require('chai').expect;
+const engine = require('./index');
 
 describe('Array', function() {
     describe('#indexOf()', function() {

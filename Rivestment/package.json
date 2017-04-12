@@ -4,9 +4,7 @@
   "description": "A game of MD5 hash collisions",
   "main": "index.js",
   "scripts": {
-    "test-unit": "mocha --require co-mocha **/*test.js",
-    "start": "node index.js",
-    "test": "npm run test-unit"
+    "start": "node index.js"
   },
   "keywords": [
     "competition",
@@ -48,6 +46,7 @@
     "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.1",
     "gulp-cssnano": "^2.1.2",
+    "gulp-mocha": "^4.3.0",
     "gulp-uglify": "^2.1.2",
     "jsx": "^0.9.89",
     "markdown": "^0.5.0",

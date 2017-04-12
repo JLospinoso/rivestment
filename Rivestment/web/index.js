@@ -39,7 +39,6 @@ io.on('connection', function(socket){
     });
 });
 
-
 httpServer.listen(80, function(){
     console.log("HTTP server listening on :80");
 });

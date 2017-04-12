@@ -9,3 +9,4 @@ RUN gulp
 COPY index.js /opt/Rivestment/
 COPY engine /opt/Rivestment/engine
 COPY slack /opt/Rivestment/slack
+RUN gulp test
