@@ -2,6 +2,9 @@
 const $ = require('jquery');
 window.jQuery = $;
 const bootstrap = require('bootstrap');
+const metricsGraphics = require('metrics-graphics');
+const React = require('react');
+const ReactDOM = require('react-dom');
 
 const updateInterval = 10000;
 const maxUpdates = 25;
@@ -133,7 +136,6 @@ const writeScores = function() {
         });
         const boundingBox = document.querySelector('#scores').getBoundingClientRect();
         const width = boundingBox.right - boundingBox.left;
-        var metricsGraphics = require('metrics-graphics');
         metricsGraphics.data_graphic({
             data: graphicData,
             width: width,
