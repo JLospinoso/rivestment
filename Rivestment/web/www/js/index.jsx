@@ -1,4 +1,7 @@
 "use strict";
+const $ = require('jquery');
+window.jQuery = $;
+const bootstrap = require('bootstrap');
 
 const updateInterval = 10000;
 const maxUpdates = 25;
@@ -150,8 +153,7 @@ ReactDOM.render(
 document.getElementById("updates-table")
 );
 
-
-$( document ).ready(function() {
+$(document).ready(function() {
     writeScores();
     setInterval(writeScores, updateInterval);
 });

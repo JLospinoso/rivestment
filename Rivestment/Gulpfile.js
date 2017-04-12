@@ -56,9 +56,6 @@ gulp.task('react', function(){
 gulp.task('scripts', function(){
   return gulp.src([
       'web/www/js/*.js',
-      'node_modules/metrics-graphics/dist/metricsgraphics.js',
-      'node_modules/d3/build/d3.js',
-      'node_modules/markdown/lib/markdown.js',
       'node_modules/jquery/dist/jquery.js',
       'node_modules/bootstrap/dist/js/bootstrap.js',
       'node_modules/react/dist/react.js',

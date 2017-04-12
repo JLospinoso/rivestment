@@ -1,5 +1,8 @@
 "use strict";
 const md = require('markdown');
+const $ = require('jquery');
+window.jQuery = $;
+const bootstrap = require('bootstrap');
 
 $.getJSON("settings.json", function(settings){
     const instructions =
