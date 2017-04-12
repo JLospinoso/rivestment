@@ -130,7 +130,8 @@ const writeScores = function() {
         });
         const boundingBox = document.querySelector('#scores').getBoundingClientRect();
         const width = boundingBox.right - boundingBox.left;
-        MG.data_graphic({
+        var metricsGraphics = require('metrics-graphics');
+        metricsGraphics.data_graphic({
             data: graphicData,
             width: width,
             height: width * 0.45,

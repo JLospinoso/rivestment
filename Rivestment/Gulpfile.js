@@ -3,6 +3,7 @@ const uglify = require('gulp-uglify');
 const babel = require('gulp-babel');
 const minifyCSS = require('gulp-cssnano');
 const mocha = require('gulp-mocha');
+const browserify = require('gulp-browserify');
 const del = require('del');
 
 gulp.task('clean', function(){
@@ -47,7 +48,8 @@ gulp.task('react', function(){
       plugins: ['transform-react-jsx'],
       presets: ['es2015','stage-2']
     }))
-    .pipe(uglify())
+    .pipe(browserify())
+//    .pipe(uglify())
     .pipe(gulp.dest('web/dist/www/js'));
 });
 
@@ -60,9 +62,8 @@ gulp.task('scripts', function(){
       'node_modules/jquery/dist/jquery.js',
       'node_modules/bootstrap/dist/js/bootstrap.js',
       'node_modules/react/dist/react.js',
-      'node_modules/react/dist/react.js',
       'node_modules/react-dom/dist/react-dom.js'])
-    .pipe(uglify())
+//    .pipe(uglify())
     .pipe(gulp.dest('web/dist/www/js'));
 });
 
