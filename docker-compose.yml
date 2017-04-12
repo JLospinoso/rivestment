@@ -15,10 +15,10 @@ services:
     - mongo:mongo
     entrypoint: npm start
     environment:
-    - MONGO_URL=mongodb://192.168.99.100:27017/rivestment
+    - MONGO_URL=mongodb://mongo:27017/rivestment
     - COLLECTION_NAME=profiles
     - BOT_NAME=scorebot
-    - PREIMAGE_RANGE=migs
+    - PREIMAGE_RANGE=hsoj
     - PASSWORD_RANGE=abcdefghijklmnopqrstuvwxyz0123456789
     - N_CHALLENGES=25
     - PASSWORD_SIZE=6
