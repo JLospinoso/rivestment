@@ -389,7 +389,7 @@ module.exports = function(io) {
         }
 
         let tokens = message.text.split(" ");
-        if (tokens && tokens[0] == botName) {
+        if (tokens && tokens[0] === botName) {
             tokens.shift();
             if (tokens) {
                 handle(user_id, message.channel, tokens);
