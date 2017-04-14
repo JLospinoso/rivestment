@@ -8,12 +8,13 @@ const io = require("socket.io")(httpServer);
 const engine = require("../engine/index")(io);
 const slack = require("../slack/index")(slackToken, engine.messageCallback);
 engine.setMessageSender(slack.messageSender);
-
+/*
 app.get('/reset-slack', function(req, res){
     slack.reconnect();
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify({response: "ok"}));
 });
+*/
 app.get('/settings.json', function(req, res){
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify(engine.settings()));

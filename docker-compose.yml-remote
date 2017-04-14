@@ -16,7 +16,7 @@ services:
     entrypoint: npm start
     environment:
     - MONGO_URL=mongodb://mongo:27017/rivestment
-    - BOT_NAME=scorebot
+    - BOT_NAME=rivestment
     - CHALLENGE_COST=5
     - COLLECTION_NAME=profiles
     - DEBUG_MODE=True

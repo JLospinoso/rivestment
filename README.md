@@ -23,7 +23,7 @@ a `docker-compose.yml` that looks like `docker-compose.yml-remote`.
 You will need to rename it to `docker-compose.yml` if you intend to use it as
 a template.
 
-All you need to do is [generate a Slack API Token here](https://api.slack.com/custom-integrations/legacy-tokens)
+All you need to do is [create a bot](https://my.slack.com/services/new/bot), obtain the token,
 and insert it onto this line of your `docker-compose.yml`:
 
 ```yml

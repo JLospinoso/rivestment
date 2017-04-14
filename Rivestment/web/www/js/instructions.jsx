@@ -107,7 +107,7 @@ ${settings.prefix} password
 You may retrieve your current score by issuing the following command:
 
 \`\`\`
-scorebot points
+${settings.prefix} points
 \`\`\`
 
 You may find that, over time, ${settings.prefix} will accumulate unsolved hashes called _scraps_. You can find out
