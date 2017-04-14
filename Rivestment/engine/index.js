@@ -10,7 +10,6 @@ const passwordRange = process.env.PASSWORD_RANGE;
 const nChallenges = parseInt(process.env.N_CHALLENGES);
 const passwordSize = parseInt(process.env.PASSWORD_SIZE);
 const challengeCost = parseInt(process.env.CHALLENGE_COST);
-const incorrectPenalty = parseInt(process.env.INCORRECT_PENALTY);
 const maxLevel = parseInt(process.env.MAX_LEVEL);
 const maxScraps = parseInt(process.env.MAX_SCRAPS);
 const maxSubmissions = parseInt(process.env.MAX_SUBMISSIONS);
@@ -22,7 +21,6 @@ const getSettings = function() {
     return {
         prefix: botName,
         challengeCost: challengeCost,
-        incorrectCost: incorrectPenalty,
         preimageRange: preimageRange,
         startingScore: startingScore,
         nChallenges: nChallenges,
@@ -198,7 +196,7 @@ const newUserProfile = function(name, user) {
 };
 
 const handle = function (user, channel, cmd) {
-    if (cmd[0] == "register" && cmd[1]) {
+    if (cmd[0] === "register" && cmd[1]) {
         insertUser(newUserProfile(cmd[1], user),
             function(result){
                 getUser(user, function(userProfile){
@@ -213,7 +211,7 @@ const handle = function (user, channel, cmd) {
             }
         );
     }
-    if (cmd[0] == "challenge") {
+    if (cmd[0] === "challenge") {
         let challengesRequested = parseInt(cmd[1]);
         if(!challengesRequested) {
             challengesRequested = nChallenges;
@@ -264,7 +262,7 @@ const handle = function (user, channel, cmd) {
                 text: "Just bought some challenges. Good luck!"
             });
         });
-    } else if (cmd[0] == "level") {
+    } else if (cmd[0] === "level") {
         const newLevel = parseInt(cmd[1]);
         if (!newLevel || newLevel < 1 || newLevel > maxLevel) {
             messageSender("You must provide a valid level.", channel);
@@ -288,7 +286,7 @@ const handle = function (user, channel, cmd) {
                 level: newLevel
             });
         });
-    } else if (cmd[0] == "password") {
+    } else if (cmd[0] === "password") {
         getUser(user, function (userProfile) {
             if (!userProfile) {
                 messageSender("You are not registered.", channel);
@@ -296,7 +294,7 @@ const handle = function (user, channel, cmd) {
             }
             messageSender(userProfile.name + " password " + userProfile.password, channel);
         });
-    } else if (cmd[0] == "points") {
+    } else if (cmd[0] === "points") {
         getUser(user, function (userProfile) {
             if (!userProfile) {
                 messageSender("You are not registered.", channel);
@@ -304,47 +302,39 @@ const handle = function (user, channel, cmd) {
             }
             messageSender(userProfile.name + " points " + userProfile.score, channel);
         });
-    } else if (cmd[0] == "try") {
+    } else if (cmd[0] === "try") {
         if (!cmd[1] || !cmd[2]) {
             messageSender("You must provide an MD5 and a preimage for me to check.", channel);
             return;
         }
         getUser(user, function(userProfile) {
-            const nSubmissions = Math.min(maxSubmissions, (cmd.length-1)/2);
-            for (let i=0; i<nSubmissions; i++) {
-                const hashIndex = 2*i+1;
-                const keyIndex = hashIndex+1;
-                let hashSubmission = cmd[hashIndex];
-                let keySubmission = cmd[keyIndex];
-                let challengeIndex = userProfile.challenges.hash.indexOf(hashSubmission);
-                if (challengeIndex == -1) {
+            const nSubmissions = Math.min(maxSubmissions, cmd.length-1);
+            const oldScore = userProfile.score;
+            for (let keyIndex=0; keyIndex<nSubmissions; keyIndex++) {
+                let keySubmission = cmd[keyIndex+1];
+                let challengeIndex = userProfile.challenges.key.indexOf(keySubmission);
+                if (challengeIndex === -1) {
                     messageSender("I don't know what challenge you're talking about, " + userProfile.name, channel);
                     return;
                 }
-                let preimage = userProfile.challenges.key[challengeIndex];
-                if (preimage != keySubmission) {
-                    messageSender(hashSubmission + " is not the MD5 hash of " + keySubmission + ". You just lost "
-                        + incorrectPenalty + " point(s), " + userProfile.name, channel);
-                    userProfile.score -= incorrectPenalty;
-                } else {
-                    let pointsEarned = userProfile.challenges.difficulty[challengeIndex];
-                    userProfile.challenges.difficulty.splice(challengeIndex, 1);
-                    userProfile.challenges.key.splice(challengeIndex, 1);
-                    userProfile.challenges.hash.splice(challengeIndex, 1);
-                    userProfile.score += pointsEarned;
-                }
+                let pointsEarned = userProfile.challenges.difficulty[challengeIndex];
+                userProfile.challenges.difficulty.splice(challengeIndex, 1);
+                userProfile.challenges.key.splice(challengeIndex, 1);
+                userProfile.challenges.hash.splice(challengeIndex, 1);
+                userProfile.score += pointsEarned;
             }
             updateUser(userProfile, function() {
                 updateClientScoreboards();
             });
+            const pointsEarned = userProfile.score - oldScore;
             ioSocket.emit('update', {
                 type: "Submission",
                 user: userProfile.name,
-                text: "Made " + nSubmissions + ". New score: " + userProfile.score,
+                text: "Submitted " + nSubmissions + " passwords and earned " + pointsEarned + " points.",
                 score: userProfile.score
             });
         });
-    } else if (cmd[0] == "scraps") {
+    } else if (cmd[0] === "scraps") {
         getUser(user, function(userProfile) {
             let scrapMessage = userProfile.name + " scraps";
             for (let i = 0; i < userProfile.challenges.hash.length; i++) {
@@ -357,7 +347,7 @@ const handle = function (user, channel, cmd) {
                 text: "Called for scraps."
             });
         });
-    } else if (cmd[0] == "quit") {
+    } else if (cmd[0] === "quit") {
         getUser(user, function (userProfile) {
             if (!userProfile) {
                 messageSender("You are not registered.", channel);

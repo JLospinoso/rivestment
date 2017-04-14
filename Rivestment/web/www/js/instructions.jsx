@@ -78,15 +78,14 @@ Once you have found the preimage for one of your challenges, simply tell ${setti
 command, e.g.:
 
 \`\`\`
-${settings.prefix} try 303d14ff089e96ef12918f26679cebb6 hkhrrav0phm
+${settings.prefix} try hkhrrav0phm
 \`\`\`
 
-You may submit multiple hashes in one \`try\`. Simply space delimit the hash/preimage pairs and continue adding them
+You may submit multiple preimages in one \`try\`. Simply space delimit the preimages and continue adding them
 to the submission (up to ${settings.maxSubmissions}).
 
-The third token is the hash that you have found, and the fourth token is the corresponding preimage.
 Note that my password, \`av0phm\`, is at the end of my preimage. The salt portion for this example is \`hkhrr\`.
-If you submit an incorrect hash, you lose ${settings.incorrectCost} points. If you submit a correct answer, you will gain
+If you submit a correct answer, you will gain
 a number of points equal to one plus the length of the salt. This number is also known as the hash's *difficulty*.
 
 You may adjust the minimum *difficulty* of the problems that ${settings.prefix} sends you by issuing the following command:
@@ -96,7 +95,8 @@ ${settings.prefix} level 5
 \`\`\`
 
 In this example, I will no longer receive challenges with preimage salts less than size four. The difficulties of your
-challenges will range from your \`level\` to ten plus your \`level\` (inclusive).
+challenges will range from your \`level\` to ten plus your \`level\` (inclusive). So, in the example above, we will
+get a random assortment of problems with difficulties ranging from 5 to 15 (salt lengths 4 through 14).
 
 You may retrieve your password by issuing the following command:
 
