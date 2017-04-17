@@ -303,8 +303,8 @@ const handle = function (user, channel, cmd) {
             messageSender(userProfile.name + " points " + userProfile.score, channel);
         });
     } else if (cmd[0] === "try") {
-        if (!cmd[1] || !cmd[2]) {
-            messageSender("You must provide an MD5 and a preimage for me to check.", channel);
+        if (!cmd[1]) {
+            messageSender("You must provide at least one preimage for me to check.", channel);
             return;
         }
         getUser(user, function(userProfile) {
