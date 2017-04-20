@@ -234,11 +234,6 @@ const handle = function (user, channel, cmd) {
                     " that many challenges. Either quit or solve some scraps.", channel);
                 return;
             }
-            if (nScraps > maxScraps) {
-                messageSender("You have too many scraps, " + userProfile.name + "! Solve one of your " +
-                    nScraps + " challenges.", channel);
-                return;
-            }
             userProfile.score -= bill;
             let minimumDifficulty = userProfile.level;
             let maximumDifficultyExclusive = minimumDifficulty + difficultyRange;
@@ -337,7 +332,7 @@ const handle = function (user, channel, cmd) {
     } else if (cmd[0] === "scraps") {
         getUser(user, function(userProfile) {
             let scrapMessage = userProfile.name + " scraps";
-            for (let i = 0; i < userProfile.challenges.hash.length; i++) {
+            for (let i = 0; i < Math.min(userProfile.challenges.hash.length, 100); i++) {
                 scrapMessage += " " + userProfile.challenges.hash[i];
             }
             messageSender(scrapMessage, channel);
