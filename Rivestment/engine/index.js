@@ -331,6 +331,10 @@ const handle = function (user, channel, cmd) {
         });
     } else if (cmd[0] === "scraps") {
         getUser(user, function(userProfile) {
+            if (!userProfile) {
+                messageSender("You are not registered.", channel);
+                return;
+            }
             let scrapMessage = userProfile.name + " scraps";
             for (let i = 0; i < Math.min(userProfile.challenges.hash.length, 100); i++) {
                 scrapMessage += " " + userProfile.challenges.hash[i];
