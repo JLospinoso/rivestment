@@ -226,7 +226,7 @@ const handle = function (user, channel, cmd) {
             const proposedScraps = nScraps + challengesRequested;
             if(proposedScraps > maxScraps) {
                 messageSender("I can't give you " + challengesRequested + " challenges, " + userProfile.name + ". You would "
-                    + " have " + proposedScraps + " scraps, and that's greater than the limit of " + challengesRequested + ".")
+                    + " have " + proposedScraps + " scraps, and that's greater than the limit of " + challengesRequested + ".", channel);
                 return;
             }
             if (userProfile.score - bill < 0) {
