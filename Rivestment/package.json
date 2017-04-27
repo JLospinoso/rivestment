@@ -1,6 +1,6 @@
 {
   "name": "rivestment",
-  "version": "0.3.0",
+  "version": "0.3.4",
   "description": "A game of MD5 hash collisions",
   "main": "index.js",
   "scripts": {
